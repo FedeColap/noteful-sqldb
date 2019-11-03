@@ -1,0 +1,25 @@
+
+.NoteLIstNav {
+    background-color: yellowgreen;
+}
+.NotePageNav {
+    background-color: yellow;
+}
+.Note {
+    background-color: red;
+}
+.Noteful-form {
+    background-color: blueviolet; 
+}
+.NoteListMain {
+    background-color: brown;
+  }
+.NotePageMain {
+    background-color: burlywood;
+}
+.App__header {
+    background-color: fuchsia;
+}
+.App__nav {
+    background-color: grey;
+}
