@@ -2,24 +2,25 @@ import React, {Component} from 'react'
 import ApiContext from '../ApiContext'
 import config from '../config';
 
-const Required = () => (
-    <span className='EditNote__required'>*</span>
-  )
 
 class EditNote extends Component {
     static contextType = ApiContext;
 
-    state= {
-        n_name: '',
-        content: '',
-        folder: '',
-        modified: null
-    }
+
+        state = {
+            error: null,
+            id: '',
+            n_name: '',
+            modified: null,
+            content: '',
+            folderid: 1
+        }
+    
     handleChangeName = (e) => {
         const d = new Date();
-        console.log(d);
+        // console.log(d);
         const date = d.toISOString();
-        console.log(date);
+        // console.log(date);
         this.setState({
             n_name : e.target.value,
             modified : date
@@ -35,12 +36,12 @@ class EditNote extends Component {
         const folderDeCui = e.target.value
         // console.log(folders.folders)
         const found = this.context.folders.find((element) => {
-            return element.name === folderDeCui
+            return element.f_name === folderDeCui
         })
-        console.log(found.id)
+        console.log(found)
         this.setState({
             folder : e.target.value,
-            folderId: found.id
+            folderid: found.id
         })
     }
     validateName = (e) => {
@@ -79,11 +80,12 @@ class EditNote extends Component {
     handleSubmit = (e) => {
         e.preventDefault();
         const { noteId } = this.props.match.params
+        console.log(noteId)
         const { n_name, content, modified } = this.state
         const newNote = { n_name, content, modified }
 
         // validation not shown
-        fetch(`https://localhost:8000/api/articles/${noteId}`, {
+        fetch(config.API_ENDPOINT + `/notes/${noteId}`, {
                 method: 'PATCH',
                 body: JSON.stringify(newNote),
                 headers: {
@@ -115,7 +117,10 @@ class EditNote extends Component {
     };
 
     componentDidMount() {
-        const { noteId } = this.props.match.params 
+        const { noteId } = this.props.match.params
+        console.log(this.props.match.params) 
+        console.log(noteId)
+        console.log(this.context)
         fetch(`https://localhost:8000/api/notes/${noteId}`, {
             method: 'GET'
         })
@@ -141,13 +146,14 @@ class EditNote extends Component {
     }
     
     render() { 
-        const { n_name, folder, content } = this.state
+        const { id, n_name, modified, content, folderid } = this.state
+
         const { className, ...otherProps } = this.props
         // console.log(this.context.folders)
         const foldersNames = this.context.folders.map(folder => 
         <option key={folder.id} value={folder.f_name}>{folder.f_name}</option>
         )
-        // console.log(foldersNames)
+        console.log(foldersNames)
         return (
             <div>
                 <form 

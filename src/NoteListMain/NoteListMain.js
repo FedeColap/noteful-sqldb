@@ -45,13 +45,13 @@ export default class NoteListMain extends React.Component {
 
   render() {
     const { notes } = this.context
-    console.log(notes)
+    // console.log(notes)
     const { folderId } = this.props.match.params
-    console.log(folderId)
-    console.log(typeof(folderId))
+    // console.log(folderId)
+    // console.log(typeof(folderId))
     const foldNumber = Number(folderId)
-    console.log(foldNumber)
-    console.log(typeof(foldNumber))
+    // console.log(foldNumber)
+    // console.log(typeof(foldNumber))
     const getNotesForFolder = (notes, foldNumber) => (
       (!folderId)
         ? notes
