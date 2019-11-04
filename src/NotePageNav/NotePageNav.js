@@ -28,6 +28,7 @@ export default class NotePageNav extends React.Component {
 
   componentDidMount() {
     const { noteId } = this.props.match.params
+    console.log(noteId)
     fetch(`${config.API_ENDPOINT}/notes/${noteId}`, {
         method: 'GET',
         header: {

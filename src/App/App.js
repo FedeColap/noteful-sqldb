@@ -21,22 +21,22 @@ class App extends Component {
         folders: []
     };
 
-    // updateFolder = updatedFolder => {
-    //     this.setState({
-    //         folders: this.state.folders.map(fd =>
-    //           (fd.id !== updatedFolder.id) ? fd : updatedFolder
-    //         )
-    //       })
+    updateFolder = updatedFolder => {
+        this.setState({
+            folders: this.state.folders.map(fd =>
+              (fd.id !== updatedFolder.id) ? fd : updatedFolder
+            )
+          })
 
-    // }
+    }
 
-    // updateNote = updatedNote => {
-    //     this.setState({
-    //         notes: this.state.notes.map(nt =>
-    //           (nt.id !== updatedFolder.id) ? nt : updatedNote
-    //         )
-    //       })
-    // }
+    updateNote = updatedNote => {
+        this.setState({
+            notes: this.state.notes.map(nt =>
+              (nt.id !== updatedNote.id) ? nt : updatedNote
+            )
+          })
+    }
 
     addFolder = folder => {
         this.setState({
@@ -96,7 +96,10 @@ class App extends Component {
                 <Route path="/add-folder" component={NotePageNav} />
                 <Route path="/add-note" component={NotePageNav} />
                 <Route path="/edit-folder" component={NotePageNav} />
-                <Route path="/edit-note" component={NotePageNav} />
+                <Route 
+                    path="/edit-note/:noteId" 
+                    render={(props) => <NotePageNav {...props} />}
+                />
             </>
         );
     }
@@ -116,7 +119,10 @@ class App extends Component {
                 <Route path="/add-folder" component={AddFolder} />
                 <Route path="/edit-folder" component={EditFolder} />
                 <Route path="/add-note" component={AddNote} />
-                <Route path="/edit-note" component={EditNote} />
+                <Route 
+                    path="/edit-note/:noteId" 
+                    render={(props) => <EditNote {...props} />}
+                />
             </>
         );
     }

@@ -2,12 +2,16 @@ import React, {Component} from 'react'
 import ApiContext from '../ApiContext'
 import config from '../config';
 
+const Required = () => (
+    <span className='EditNote__required'>*</span>
+  )
 
 class EditNote extends Component {
     static contextType = ApiContext;
 
-
-        state = {
+    constructor(props){
+        super(props);
+        this.state = {
             error: null,
             id: '',
             n_name: '',
@@ -15,7 +19,7 @@ class EditNote extends Component {
             content: '',
             folderid: 1
         }
-    
+    }
     handleChangeName = (e) => {
         const d = new Date();
         // console.log(d);
@@ -85,7 +89,7 @@ class EditNote extends Component {
         const newNote = { n_name, content, modified }
 
         // validation not shown
-        fetch(config.API_ENDPOINT + `/notes/${noteId}`, {
+        fetch(`${config.API_ENDPOINT}/notes/${noteId}`, {
                 method: 'PATCH',
                 body: JSON.stringify(newNote),
                 headers: {
@@ -121,7 +125,7 @@ class EditNote extends Component {
         console.log(this.props.match.params) 
         console.log(noteId)
         console.log(this.context)
-        fetch(`https://localhost:8000/api/notes/${noteId}`, {
+        fetch(`${config.API_ENDPOINT}/notes/${noteId}`, {
             method: 'GET'
         })
         .then(res => {
@@ -146,8 +150,7 @@ class EditNote extends Component {
     }
     
     render() { 
-        const { id, n_name, modified, content, folderid } = this.state
-
+        const { n_name, folder, content } = this.state
         const { className, ...otherProps } = this.props
         // console.log(this.context.folders)
         const foldersNames = this.context.folders.map(folder => 
