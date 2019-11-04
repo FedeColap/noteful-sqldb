@@ -21,14 +21,19 @@ class App extends Component {
         folders: []
     };
 
+    
     updateFolder = updatedFolder => {
+        console.log(typeof(updatedFolder))
+        const newFolders = this.state.folders.map(fd =>
+          (fd.id === updatedFolder.id) ? updatedFolder : fd
+        )
+        console.log(newFolders)
         this.setState({
-            folders: this.state.folders.map(fd =>
-              (fd.id !== updatedFolder.id) ? fd : updatedFolder
-            )
-          })
-
-    }
+            folders: newFolders
+        })
+        console.log(this.state.folders)
+    };
+    
 
     updateNote = updatedNote => {
         this.setState({
@@ -36,6 +41,7 @@ class App extends Component {
               (nt.id !== updatedNote.id) ? nt : updatedNote
             )
           })
+
     }
 
     addFolder = folder => {

@@ -7,6 +7,7 @@ class EditFolder extends Component {
     static contextType = ApiContext;
 
     state= {
+        id: "",
         f_name: ""
     }
     handleChangeName = (e) => {
@@ -33,9 +34,9 @@ class EditFolder extends Component {
         const { folderId } = this.props.match.params
         console.log(folderId )
         
-        const { f_name} = this.state
+        const { id, f_name} = this.state
         console.log(e)
-        const newFolder = { f_name}
+        const newFolder = { id, f_name}
         
         fetch(`${config.API_ENDPOINT}/folders/${folderId}`,{
             method: 'PATCH',
@@ -54,6 +55,7 @@ class EditFolder extends Component {
             .then(() => {
                 this.resetFields(newFolder)
                 this.context.updateFolder(newFolder)
+                console.log(newFolder)
                 this.props.history.push('/')
             })
             .catch(error => {
@@ -81,6 +83,7 @@ class EditFolder extends Component {
         })
         .then(responseData => {
             this.setState({
+                id: responseData.id,
                 f_name: responseData.f_name,
             })
         })

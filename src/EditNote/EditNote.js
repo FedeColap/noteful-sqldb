@@ -81,8 +81,8 @@ class EditNote extends Component {
         e.preventDefault();
         const { noteId } = this.props.match.params
         console.log(noteId)
-        const { n_name, content, modified, folderid } = this.state
-        const newNote = { n_name, content, modified , folderid}
+        const { id, n_name, content, modified, folderid } = this.state
+        const newNote = { id, n_name, content, modified , folderid}
 
         // validation not shown
         fetch(`${config.API_ENDPOINT}/notes/${noteId}`, {
@@ -93,6 +93,7 @@ class EditNote extends Component {
                 },
         })
         .then(res => {
+            console.log(res)
             if (!res.ok)
               return res.json().then(error => Promise.reject(error))
         })
@@ -133,6 +134,7 @@ class EditNote extends Component {
         .then(responseData => {
             console.log(responseData)
             this.setState({
+                id: responseData.id,
                 n_name: responseData.n_name,
                 content: responseData.content,
                 folder: responseData.folder,
