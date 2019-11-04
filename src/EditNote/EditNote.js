@@ -2,10 +2,6 @@ import React, {Component} from 'react'
 import ApiContext from '../ApiContext'
 import config from '../config';
 
-const Required = () => (
-    <span className='EditNote__required'>*</span>
-  )
-
 class EditNote extends Component {
     static contextType = ApiContext;
 
@@ -85,8 +81,8 @@ class EditNote extends Component {
         e.preventDefault();
         const { noteId } = this.props.match.params
         console.log(noteId)
-        const { n_name, content, modified } = this.state
-        const newNote = { n_name, content, modified }
+        const { n_name, content, modified, folderid } = this.state
+        const newNote = { n_name, content, modified , folderid}
 
         // validation not shown
         fetch(`${config.API_ENDPOINT}/notes/${noteId}`, {

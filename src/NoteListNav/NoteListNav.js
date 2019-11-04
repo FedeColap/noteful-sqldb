@@ -13,8 +13,8 @@ export default class NoteListNav extends React.Component {
 
   render() {
     const { folders=[], notes=[] } = this.context
-    // const { noteId } = this.props.match.params
-    // console.log(noteId)
+    const { noteId } = this.props.match.params
+    console.log(this.props.match.params)
     // // const folderList = noteId ? folders.find(folder => folder.id == note.folderid) : folders;
 
     const countNotesForFolder = (notes=[], number) =>
@@ -31,6 +31,8 @@ export default class NoteListNav extends React.Component {
             {countNotesForFolder(notes, folder.id)}  
           </span>
           {folder.f_name}
+          {'  |  '} 
+          <Link to={`/edit-folder/${folder.id}`}>Update</Link>
         </NavLink>
       </li>
     )

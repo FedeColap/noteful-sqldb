@@ -30,13 +30,16 @@ class EditFolder extends Component {
 
     handleSubmit = (e) => {
         e.preventDefault();
-        console.log(this.state)
-        const f_name = this.state
-        console.log(e)
+        const { folderId } = this.props.match.params
+        console.log(folderId )
         
-        fetch(`${config.API_ENDPOINT}/folders`,{
-            method: 'POST',
-            body: JSON.stringify(f_name),
+        const { f_name} = this.state
+        console.log(e)
+        const newFolder = { f_name}
+        
+        fetch(`${config.API_ENDPOINT}/folders/${folderId}`,{
+            method: 'PATCH',
+            body: JSON.stringify(newFolder),
             headers: {
             'content-type': 'application/json',
             }
@@ -44,27 +47,30 @@ class EditFolder extends Component {
             .then((res) => {
                 console.log(res)
                 if (!res.ok) {
-                    // get the error message from the response,
-                    return res.json().then(error => {
-                      // then throw it
-                      throw error
-                    })
-                    
-                } return res.json()
+                    return res.json().then(error => Promise.reject(error))
+                } 
             })
             // .then(this.props.retrieveAdjFolders())
-            .then(data => {
+            .then(() => {
+                this.resetFields(newFolder)
+                this.context.updateFolder(newFolder)
                 this.props.history.push('/')
-                this.context.addFolder(data)
             })
             .catch(error => {
-                console.error({error});
+                console.error({error})
+                this.setState({ error })
             });
+    }
+    resetFields = (newFields) => {
+        this.setState({
+            f_name: newFields.f_name || '',
+        })
     }
 
     componentDidMount() {
         const { folderId } = this.props.match.params 
-        fetch(`https://localhost:8000/api/folders/${folderId}`, {
+        console.log(folderId )
+        fetch(`${config.API_ENDPOINT}/folders/${folderId}`, {
             method: 'GET'
         })
         .then(res => {
@@ -87,6 +93,7 @@ class EditFolder extends Component {
     render() { 
         const { className, ...otherProps } = this.props
         const {f_name} = this.state
+        console.log(this.state)
         return (
             <div>
                 <form 

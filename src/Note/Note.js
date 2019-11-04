@@ -39,7 +39,7 @@ export default class Note extends React.Component {
 
   render() {
     const { n_name, id, modified } = this.props
-    console.log(this.props.id)
+    // console.log(this.props.id)
     return (
       <div className='Note'>
         <h2 className='Note__title'>
@@ -57,7 +57,7 @@ export default class Note extends React.Component {
           remove
         </button>
         <p>
-        {/* <Link to={`/edit-note/${props.id}`}> */}
+        
           <Link to={`/edit-note/${this.props.id}`}>
             update
           </Link>
