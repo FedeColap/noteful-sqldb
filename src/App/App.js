@@ -55,6 +55,14 @@ class App extends Component {
         })
     }
 
+    deleteNote = noteId => {
+        console.log(noteId)
+        this.setState({
+            notes: this.state.notes.filter(note => note.id !== noteId)
+        });
+        console.log(this.state.notes)
+    };
+
     retrieveAdjFolders = () => {
         Promise.all([
             fetch(`${config.API_ENDPOINT}/notes`),
@@ -79,12 +87,6 @@ class App extends Component {
     componentDidMount() {
         this.retrieveAdjFolders()
     }
-
-    deleteNote = noteId => {
-        this.setState({
-            notes: this.state.notes.filter(note => note.id !== noteId)
-        });
-    };
    
 
     renderNavRoutes() {

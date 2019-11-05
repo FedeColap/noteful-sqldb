@@ -35,16 +35,18 @@ export default class Note extends React.Component {
     .then(res => {
       if (!res.ok) {
         // get the error message from the response,
-        return res.json().then(error => {
+        return res.then(error => {
           
           Promise.reject(error)
         })
       }
-      return res.json()
+      return res
+      
     })
-      .then((data) => {
-          this.props.history.push('/');
+      .then(data => {
+        console.log(this.props.history)
           this.context.deleteNote(noteId);
+          this.props.history.push('/');
       })
       .catch(error => {
           console.error(error)
