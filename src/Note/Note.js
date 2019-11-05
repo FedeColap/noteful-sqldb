@@ -24,7 +24,9 @@ export default class Note extends React.Component {
   deleteNoteRequest(e) {
     console.log('delete this', e)
     console.log(typeof(e))
-    const noteId = e 
+    const noteId = Number(e)
+    console.log(noteId)
+    console.log(typeof(noteId))
     
     fetch(`${config.API_ENDPOINT}/notes/${e}`, {
       method: 'DELETE',
