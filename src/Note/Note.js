@@ -6,40 +6,57 @@ import ApiContext from '../ApiContext'
 import config from '../config'
 import './Note.css'
 
+
+
 export default class Note extends React.Component {
   static defaultProps ={
-    onDeleteNote: () => {},
+    deleteNote: () => {},
+    match: {
+      params: {}
+  }
   }
   static contextType = ApiContext;
 
-  handleClickDelete = e => {
-    e.preventDefault()
-    const noteId = this.props.id
-
-    fetch(`${config.API_ENDPOINT}/notes/${noteId}`, {
+  constructor(props) {
+    super(props)
+    this.deleteNoteRequest = this.deleteNoteRequest.bind(this)
+  }
+  deleteNoteRequest(e) {
+    console.log('delete this', e)
+    console.log(typeof(e))
+    const noteId = e 
+    
+    fetch(`${config.API_ENDPOINT}/notes/${e}`, {
       method: 'DELETE',
-      headers: {
-        'content-type': 'application/json'
-      },
+            headers: {
+                'content-type': 'application/json'
+            }
     })
-      .then(res => {
-        if (!res.ok)
-          return res.json().then(e => Promise.reject(e))
-        return res.json()
-      })
-      .then(() => {
-        this.context.deleteNote(noteId)
-        // allow parent to perform extra behaviour
-        this.props.deleteNote(noteId)
+    .then(res => {
+      if (!res.ok) {
+        // get the error message from the response,
+        return res.json().then(error => {
+          
+          Promise.reject(error)
+        })
+      }
+      return res.json()
+    })
+      .then((data) => {
+          this.props.history.push('/');
+          this.context.deleteNote(noteId);
       })
       .catch(error => {
-        console.error({ error })
+          console.error(error)
       })
+
   }
+
 
   render() {
     const { n_name, id, modified } = this.props
-    // console.log(this.props.id)
+    
+    
     return (
       <div className='Note'>
         <h2 className='Note__title'>
@@ -50,7 +67,7 @@ export default class Note extends React.Component {
         <button
           className='Note__delete'
           type='button'
-          onClick={this.handleClickDelete}
+          onClick={(e) => this.deleteNoteRequest(this.props.id)}
         >
           <FontAwesomeIcon icon='trash-alt' />
           {' '}
